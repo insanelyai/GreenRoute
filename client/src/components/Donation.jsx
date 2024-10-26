@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Header from './Header'
 import { CreditCard, HelpCircle, Leaf, DollarSign } from 'lucide-react'
 import { toast, Toaster } from 'react-hot-toast'
+import { loadStripe } from '@stripe/stripe-js'
 
 export default function DonationPage() {
   const [amount, setAmount] = useState(50)
@@ -25,7 +26,30 @@ export default function DonationPage() {
     setAmount(parseFloat(value) || 0)
   }
 
-  const handleDonation = () => {
+  const handleDonation = async () => {
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+    const body = {
+      amount
+    }
+
+    const headers = {
+      "Content-Type": "application/json"
+    }
+
+    const response = await fetch(`http://localhost:8000/api/v1/auth/donationpayment`, {
+      method:"POST",
+      headers:headers,
+      body:JSON.stringify(body)
+    })
+
+    const session = await response.json()
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id
+    })
+    if(result.error){
+      console.log(result.error)
+    }
     if (amount > 0 && selectedOrg) {
       toast.success(`Thank you! ₹
  ${amount.toFixed(2)} donated successfully to ${selectedOrg}.`, {
@@ -102,7 +126,7 @@ export default function DonationPage() {
             </div>
 
             <Tabs defaultValue="card" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-green-100 rounded-lg p-1">
+              {/* <TabsList className="grid w-full grid-cols-2 bg-green-100 rounded-lg p-1">
                 <TabsTrigger value="card" className="data-[state=active]:bg-white data-[state=active]:text-green-600 rounded-md transition-all">
                   <CreditCard className="mr-2 h-4 w-4" />
                   Card
@@ -112,8 +136,8 @@ export default function DonationPage() {
                   ₹
                   PayPal
                 </TabsTrigger>
-              </TabsList>
-              <TabsContent value="card" className="mt-4">
+              </TabsList> */}
+              {/* <TabsContent value="card" className="mt-4">
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="cardNumber" className="text-green-700">Card number</Label>
@@ -151,7 +175,7 @@ export default function DonationPage() {
                     </Select>
                   </div>
                 </div>
-              </TabsContent>
+              </TabsContent> */}
               <TabsContent value="paypal" className="mt-4">
                 <div className="text-center py-8 bg-blue-50 rounded-lg">
                   <DollarSign className="mx-auto h-12 w-12 text-blue-500 mb-4" />

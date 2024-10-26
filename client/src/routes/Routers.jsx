@@ -9,6 +9,8 @@ import FreeTravelCarbonCalculator from '../components/FreeTravelCarbonCalculator
 import EcoAccommodation from '../components/EcoAccommodations'
 import Donation from '../components/Donation'
 import Itinerary from '../components/Itinerary'
+import PaymentSuccess from '@/components/PaymentSuccess'
+import PaymentCancel from '@/components/PaymentCancel'
 
 
 const Routers = () => {
@@ -18,6 +20,8 @@ const Routers = () => {
         <Route path='/home' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
+        <Route path='/success' element={<PaymentSuccess/>}/>
+        <Route path= '/cancel' element={<PaymentCancel/>}/>
         <Route path="/" element={<Home />} />
             <Route path="/FreeTravelCarbonCalculator" element={<FreeTravelCarbonCalculator />} />
             <Route path="/EcoAccommodations" element={<EcoAccommodation />} />

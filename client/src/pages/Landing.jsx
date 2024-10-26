@@ -1,4 +1,3 @@
-"use client"
 
 import React, { useState, useEffect } from "react"
 import { Leaf, Plane, Recycle, TreePine, Sun, Wind, Droplets } from "lucide-react"
