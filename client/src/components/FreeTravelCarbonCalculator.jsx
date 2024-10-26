@@ -18,7 +18,6 @@ const MapComponent = React.lazy(() => import('../components/MapComponent'));
 
 const travelModes = [
   { id: 'driving-car', name: 'Driving', icon: Car },
-  { id: 'foot-walking', name: 'Walking', icon: User },
   { id: 'cycling-regular', name: 'Cycling', icon: Bike },
   { id: 'train', name: 'Train', icon: Train },
   { id: 'flying', name: 'Flying', icon: Plane },
@@ -34,7 +33,6 @@ const emissionFactors = {
   'driving-car': 0.192,
   'driving-hgv': 0.5,
   'driving-electric': 0.05,
-  'foot-walking': 0,
   'cycling-regular': 0,
   'train': 0.041,
   'flying': 0.255,
